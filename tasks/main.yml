@@ -1,0 +1,15 @@
+---
+
+- name: Back-up existing build artifact if necessary
+  shell: cp -p {{ deploy_path }} {{ deploy_path }}_`date +%Y%m%d` removes={{ deploy_path }}
+
+- name: Copy build artifact from sftp_server_name to deploy_path
+  shell: >
+    (
+    echo "get {{ project_file_path }} {{ deploy_path }}" ;
+    echo "bye"
+    ) | sftp -oIdentityFile={{ ansible_ident_file }} -b - {{ sftp_username }}@{{ sftp_server_name }}:{{ sftp_path }}
+  args:
+    executable: /bin/bash
+  register: sftp_status
+  failed_when: "sftp_status.rc != 0"

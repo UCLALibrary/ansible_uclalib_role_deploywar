@@ -1,0 +1,15 @@
+---
+
+sftp_server_name: travisci-sftp.library.ucla.edu
+
+sftp_username: travisci
+
+sftp_path: /build
+
+ansible_ident_file: /home/ansible/.ssh/id_rsa
+
+# Define path to build artifact (relative to sftp_path)
+#project_file_path:
+
+# Define path to deploy build artifact (including file name)
+#deploy_path:
