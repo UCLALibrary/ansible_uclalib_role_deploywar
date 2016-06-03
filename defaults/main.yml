@@ -11,9 +11,6 @@ ansible_ident_file: /home/ansible/.ssh/id_rsa
 # Define tomcat instance
 #tomcat_inst_name: appname
 
-# Define the filename of the build artifact
-#project_filename: appname.war
-
 # Define path to build artifact (relative to sftp_path)
 #project_source_path: appname/appname.war
 
