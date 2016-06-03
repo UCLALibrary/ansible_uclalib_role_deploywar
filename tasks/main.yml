@@ -1,17 +1,21 @@
 ---
 
 - name: Back-up existing build artifact if necessary
-  shell: cp -p {{ project_target_path }} {{ project_target_path }}_`date +%Y%m%d` removes={{ project_target_path }}
+  shell: cp -p {{ item.project_target_path }} {{ item.project_target_path }}_`date +%Y%m%d` removes={{ item.project_target_path }}
+  with_items: "{{ travis_project }}"
 
 - name: Copy build artifact from sftp_server_name to project_target_path
   shell: >
     (
-    echo "get {{ project_source_path }} {{ project_target_path }}" ;
+    echo "get {{ item.project_source_path }} {{ item.project_target_path }}" ;
     echo "bye"
     ) | sftp -oIdentityFile={{ ansible_ident_file }} -b - {{ sftp_username }}@{{ sftp_server_name }}:{{ sftp_path }}
   args:
     executable: /bin/bash
+  with_items: "{{ travis_project }}"
   register: sftp_status
   failed_when: "sftp_status.rc != 0"
-  notify:
-    - restart tomcatinstance
+
+- name: Restart Tomcat Instances
+  service: name={{ item.tomcat_inst_name }} state=restarted
+  with_items: "{{ travis_project }}"
