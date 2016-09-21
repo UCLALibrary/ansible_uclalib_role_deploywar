@@ -3,7 +3,7 @@
 - name: Back-up existing build artifact if necessary
   shell: >
     cp -p /usr/local/{{ project_name }}/webapps/{{ project_name }}.war
-    /usr/local/{{ project_name }}/webapps/{{ project_name }}.war_`date +%Y%m%d`
+    /usr/local/{{ project_name }}/webapps/{{ project_name }}.war_`date +%Y%m%d%H%M%S`
     removes=/usr/local/{{ project_name }}/webapps/{{ project_name }}.war
 
 - name: Copy build artifact from sftp_server_name to project_target_path
