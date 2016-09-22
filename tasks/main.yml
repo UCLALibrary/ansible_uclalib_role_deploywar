@@ -23,5 +23,8 @@
   register: sftp_status
   failed_when: "sftp_status.rc != 0"
 
+-name: Set ownership on build artifact
+  file: path=/usr/local/{{ project_name }}/webapps/{{ project_name }}.war owner={{ project_name }} group={{ project_name }}
+
 - name: Start Tomcat Instance
   service: name={{ project_name }} state=started
