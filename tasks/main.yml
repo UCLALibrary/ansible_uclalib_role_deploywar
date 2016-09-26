@@ -1,5 +1,14 @@
 ---
 
+- name: Find any previously backed-up .war files
+  find: file_type=file paths="/usr/local/{{ project_name }}/webapps" patterns="{{ project_name}}.war_*"
+  register: war_file_backups
+
+- name: Remove any previous .war file back-ups that were found
+  file: path="{{ item.path }}" state=absent
+  with_items: "{{ war_file_backups.files }}"
+  when: war_file_backups is defined
+
 - name: Back-up existing build artifact if necessary
   shell: >
     mv /usr/local/{{ project_name }}/webapps/{{ project_name }}.war
