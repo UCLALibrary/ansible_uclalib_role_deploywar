@@ -1,7 +1,7 @@
 ---
 
 - name: Find any previously backed-up .war files
-  find: file_type=file paths="/usr/local/{{ project_name }}/webapps" patterns="{{ project_name}}.war_*"
+  find: file_type=file paths="/usr/local/{{ project_name }}/webapps" patterns="{{ project_name }}.war_*"
   register: war_file_backups
 
 - name: Remove any previous .war file back-ups that were found
